@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Каталог Антона «Rock» Власова</title>
+<meta name="description" content="Каталог фильмов, сериалов и игр из Boosty-блога Антона «Rock» Власова: постеры, оценки IMDb/Кинопоиск/Metacritic и ссылки на записи.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <h1>Каталог Антона «Rock» Власова</h1>
+    <p>Фильмы, сериалы и игры из <a href="https://boosty.to/antonpower" target="_blank" rel="noopener">Boosty</a> — с постерами, оценками и ссылками на записи просмотров. Некаталогизируемые стримы — в отдельной вкладке.</p>
+  </div>
+  <div class="controls">
+    <input id="search" type="search" placeholder="Поиск по названию…" autocomplete="off">
+    <select id="sort" aria-label="Сортировка">
+      <option value="default">Сортировка по умолчанию</option>
+      <option value="year">Сначала новые (по году)</option>
+      <option value="title">По названию</option>
+      <option value="rating">По оценке Кинопоиска</option>
+      <option value="imdb">По оценке IMDb</option>
+    </select>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<main>
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty" hidden>Ничего не найдено</div>
+</main>
+<footer class="foot">
+  <span>Обновлено: <span id="gen"></span></span>
+  <span>Оценки: Кинопоиск · IMDb · Metacritic. Источники: Wikipedia, Wikidata, Кинопоиск, IMDb, Metacritic.</span>
+</footer>
+<script src="app.js"></script>
+</body>
+</html>

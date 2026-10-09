@@ -88,7 +88,7 @@ main { padding: 22px clamp(14px, 4vw, 40px) 60px; }
 .body { padding: 12px 13px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
 .title { font-size: 15px; font-weight: 700; margin: 0; line-height: 1.25; }
 .title-en { color: var(--muted); font-size: 12.5px; font-weight: 500; margin-top: -3px; }
-.badges { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.badges { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
 .badge {
   display: inline-flex; align-items: baseline; gap: 5px; flex-shrink: 0;
   padding: 3px 8px; border-radius: 7px; font-size: 12px; font-weight: 700;

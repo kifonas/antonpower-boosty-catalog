@@ -18,10 +18,6 @@ const r1 = (n) => (Math.round(n * 10) / 10).toFixed(1).replace(/\.0$/, "");
 
 function badge(kind, label, value) {
   if (value == null) return "";
-  if (kind === "meta") {
-    const cls = value >= 61 ? "good" : value >= 40 ? "mid" : "bad";
-    return `<span class="badge meta ${cls}"><span class="lbl">METACRITIC</span><span class="val">${value}</span></span>`;
-  }
   return `<span class="badge ${kind}"><span class="lbl">${label}</span><span class="val">${r1(value)}</span></span>`;
 }
 
@@ -50,7 +46,6 @@ function cardHtml(g) {
   const badges = [
     badge("kp", "КИНОПОИСК", g.ratings.kinopoisk),
     badge("imdb", "IMDb", g.ratings.imdb),
-    badge("meta", "MC", g.ratings.metacritic),
   ].join("");
   return `<article class="card">
     ${posterHtml(g)}

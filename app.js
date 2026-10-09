@@ -74,6 +74,11 @@ function streamRow(s) {
   </div>`;
 }
 
+function latestDate(g) {
+  if (g.posts && g.posts.length) return Math.max(...g.posts.map((p) => p.date || 0));
+  return g.date || 0;
+}
+
 function sortList(list) {
   const arr = list.slice();
   const s = state.sort;
@@ -81,10 +86,7 @@ function sortList(list) {
   else if (s === "title") arr.sort((a, b) => (a.title || "").localeCompare(b.title || "", "ru"));
   else if (s === "rating") arr.sort((a, b) => (b.ratings.kinopoisk || 0) - (a.ratings.kinopoisk || 0));
   else if (s === "imdb") arr.sort((a, b) => (b.ratings.imdb || 0) - (a.ratings.imdb || 0));
-  else if (s === "default") {
-    if (state.tab === "films") arr.sort((a, b) => (b.year || 0) - (a.year || 0) || (a.title || "").localeCompare(b.title || "", "ru"));
-    else if (state.tab !== "streams") arr.sort((a, b) => (a.title || "").localeCompare(b.title || "", "ru"));
-  }
+  else if (s === "default") arr.sort((a, b) => latestDate(b) - latestDate(a));
   return arr;
 }
 
@@ -108,6 +110,7 @@ function render() {
   if (state.tab === "streams") {
     grid.className = "streams-list";
     const list = catalog.streams.filter((s) => !state.q || s.title.toLowerCase().includes(state.q.toLowerCase()));
+    if (state.sort === "default") list.sort((a, b) => (b.date || 0) - (a.date || 0));
     grid.innerHTML = list.map(streamRow).join("");
     empty.hidden = list.length > 0;
     return;

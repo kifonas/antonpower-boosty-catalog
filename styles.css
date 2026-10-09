@@ -91,12 +91,11 @@ main { padding: 22px clamp(14px, 4vw, 40px) 60px; }
 .badges { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 .badge {
   display: inline-flex; align-items: baseline; gap: 5px; flex-shrink: 0;
-  padding: 3px 8px; border-radius: 7px; font-size: 12px; font-weight: 700; line-height: 1;
+  padding: 3px 8px; border-radius: 7px; font-size: 12px; font-weight: 700;
   background: #0d1016; border: 1px solid var(--border);
   white-space: nowrap;
 }
-.badge .lbl { font-weight: 700; opacity: .85; font-size: 10.5px; letter-spacing: .3px; line-height: 1; }
-.badge .val { line-height: 1; }
+.badge .lbl { font-weight: 700; opacity: .85; font-size: 10.5px; letter-spacing: .3px; }
 .badge.kp .val { color: var(--kp); }
 .badge.imdb .val { color: var(--imdb); }
 .badge.meta.good .val { color: var(--meta-good); }

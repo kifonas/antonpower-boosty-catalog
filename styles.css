@@ -88,13 +88,15 @@ main { padding: 22px clamp(14px, 4vw, 40px) 60px; }
 .body { padding: 12px 13px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
 .title { font-size: 15px; font-weight: 700; margin: 0; line-height: 1.25; }
 .title-en { color: var(--muted); font-size: 12.5px; font-weight: 500; margin-top: -3px; }
-.badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.badges { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
 .badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 3px 8px; border-radius: 7px; font-size: 12px; font-weight: 700;
+  display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0;
+  padding: 3px 8px; border-radius: 7px; font-size: 12px; font-weight: 700; line-height: 1;
   background: #0d1016; border: 1px solid var(--border);
+  white-space: nowrap;
 }
-.badge .lbl { font-weight: 700; opacity: .85; font-size: 10.5px; letter-spacing: .3px; }
+.badge .lbl { font-weight: 700; opacity: .85; font-size: 10.5px; letter-spacing: .3px; line-height: 1; }
+.badge .val { line-height: 1; }
 .badge.kp .val { color: var(--kp); }
 .badge.imdb .val { color: var(--imdb); }
 .badge.meta.good .val { color: var(--meta-good); }

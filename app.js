@@ -6,6 +6,7 @@ const TABS = [
 ];
 const state = { tab: "films", q: "", sort: "default" };
 let catalog = null;
+let VER = "";
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -23,8 +24,9 @@ function badge(kind, label, value) {
 
 function posterHtml(g) {
   const ph = esc((g.title || "?").replace(/[«»"']/g, "").slice(0, 1).toUpperCase());
+  const src = g.poster ? `${esc(g.poster)}${g.poster.includes("?") ? "&" : "?"}v=${encodeURIComponent(VER)}` : "";
   const img = g.poster
-    ? `<img loading="lazy" src="${esc(g.poster)}" alt="${esc(g.title)}" onerror="this.parentNode.innerHTML='<span class=&quot;ph&quot;>${ph}</span>'">`
+    ? `<img loading="lazy" src="${src}" alt="${esc(g.title)}" onerror="this.parentNode.innerHTML='<span class=&quot;ph&quot;>${ph}</span>'">`
     : `<span class="ph">${ph}</span>`;
   const year = g.year ? `<span class="yearbadge">${g.year}</span>` : "";
   return `<div class="poster${g.fit ? " " + g.fit : ""}">${img}${year}</div>`;
@@ -136,8 +138,9 @@ function wire() {
   });
 }
 
-fetch("catalog.json").then((r) => r.json()).then((data) => {
+fetch("catalog.json?v=" + Date.now(), { cache: "no-store" }).then((r) => r.json()).then((data) => {
   catalog = data;
+  VER = data.generatedAt || "";
   $("#gen").textContent = new Date(data.generatedAt).toLocaleString("ru-RU");
   wire();
   render();

@@ -25,6 +25,7 @@ body {
 }
 a { color: var(--accent-2); text-decoration: none; }
 a:hover { text-decoration: underline; }
+a.card:hover { text-decoration: none; }
 
 .top {
   position: sticky; top: 0; z-index: 20;

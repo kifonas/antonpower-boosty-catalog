@@ -38,14 +38,14 @@ function cardHtml(g) {
     badge("kp", "КИНОПОИСК", g.ratings.kinopoisk),
     badge("imdb", "IMDb", g.ratings.imdb),
   ].join("");
-  return `<article class="card" data-id="${esc(g.id)}">
+  return `<a class="card" data-id="${esc(g.id)}" href="#/g/${encodeURIComponent(g.id)}">
     ${posterHtml(g)}
     <div class="body">
       <h2 class="title">${esc(g.title)}</h2>
       ${en}
       <div class="badges">${badges || '<span class="badge none"></span>'}</div>
     </div>
-  </article>`;
+  </a>`;
 }
 
 function streamRow(s) {

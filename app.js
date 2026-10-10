@@ -49,7 +49,7 @@ function cardHtml(g) {
     badge("kp", "КИНОПОИСК", g.ratings.kinopoisk),
     badge("imdb", "IMDb", g.ratings.imdb),
   ].join("");
-  return `<article class="card">
+  return `<article class="card" data-id="${esc(g.id)}">
     ${posterHtml(g)}
     <div class="body">
       <h2 class="title">${esc(g.title)}</h2>
@@ -93,6 +93,53 @@ function matches(g) {
   return (g.title || "").toLowerCase().includes(q) || (g.titleEn || "").toLowerCase().includes(q) || (g.titleRu || "").toLowerCase().includes(q);
 }
 
+function routeId() {
+  const h = location.hash.replace(/^#\/?/, "");
+  const m = h.match(/^g\/(.+)$/);
+  return m ? decodeURIComponent(m[1]) : "";
+}
+
+function findGroup(id) {
+  for (const k of ["films", "series", "games"]) {
+    const g = (catalog[k] || []).find((x) => x.id === id);
+    if (g) return g;
+  }
+  return null;
+}
+
+function postRow(p) {
+  const paid = p.hasAccess === false ? `<span class="pr-paid">по подписке</span>` : "";
+  return `<a class="post-row" href="${esc(p.url)}" target="_blank" rel="noopener">
+    <span class="pr-date">${fmtDate(p.date)}</span>
+    <span class="pr-title">${esc(p.title || p.label)}</span>
+    ${paid}
+  </a>`;
+}
+
+function detailHtml(g) {
+  const en = g.titleEn && g.titleEn !== g.title ? `<div class="title-en">${esc(g.titleEn)}</div>` : "";
+  const badgeList = [badge("kp", "КИНОПОИСК", g.ratings.kinopoisk), badge("imdb", "IMDb", g.ratings.imdb)].join("");
+  const badges = badgeList ? `<div class="badges">${badgeList}</div>` : "";
+  const poster = posterHtml(g).replace('<div class="poster', '<div class="detail-poster poster');
+  const posts = (g.posts || []).slice().sort((a, b) => (a.date || 0) - (b.date || 0));
+  return `<div class="detail">
+    <a class="back" href="#/">&larr; Назад к каталогу</a>
+    <div class="detail-head">
+      ${poster}
+      <div class="detail-info">
+        <h1 class="detail-title">${esc(g.title)}</h1>
+        ${en}
+        ${badges}
+        ${g.desc ? `<p class="detail-desc">${esc(g.desc)}</p>` : ""}
+      </div>
+    </div>
+    <div class="detail-posts">
+      <h2 class="posts-head">Записи с Boosty (${posts.length}) — сначала старые</h2>
+      <div class="post-list">${posts.map(postRow).join("")}</div>
+    </div>
+  </div>`;
+}
+
 function renderTabs() {
   $("#tabs").innerHTML = TABS.map(([k, label]) => {
     const n = k === "streams" ? catalog.streams.length : catalog[k].length;
@@ -104,6 +151,16 @@ function render() {
   renderTabs();
   const grid = $("#grid");
   const empty = $("#empty");
+  const rid = routeId();
+  if (rid) {
+    const g = findGroup(rid);
+    if (g) {
+      grid.className = "detail";
+      grid.innerHTML = detailHtml(g);
+      empty.hidden = true;
+      return;
+    }
+  }
   if (state.tab === "streams") {
     grid.className = "streams-list";
     const list = catalog.streams.filter((s) => !state.q || s.title.toLowerCase().includes(state.q.toLowerCase()));
@@ -123,18 +180,23 @@ function wire() {
     const b = e.target.closest(".tab");
     if (!b) return;
     state.tab = b.dataset.tab;
-    render();
+    if (routeId()) location.hash = "#/"; else render();
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
-  $("#search").addEventListener("input", (e) => { state.q = e.target.value.trim(); render(); });
-  $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; render(); });
+  $("#search").addEventListener("input", (e) => { state.q = e.target.value.trim(); if (routeId()) location.hash = "#/"; else render(); });
+  $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; if (routeId()) location.hash = "#/"; else render(); });
+  window.addEventListener("hashchange", () => { render(); window.scrollTo({ top: 0 }); });
   $("#grid").addEventListener("click", (e) => {
     const m = e.target.closest(".more");
     if (m) {
       const d = m.parentNode.querySelector(".desc");
       d.classList.toggle("open");
       m.textContent = d.classList.contains("open") ? "Свернуть" : "Показать полностью";
+      return;
     }
+    if (e.target.closest("a")) return;
+    const card = e.target.closest(".card");
+    if (card && card.dataset.id) location.hash = "#/g/" + encodeURIComponent(card.dataset.id);
   });
 }
 

@@ -15,7 +15,7 @@ const fmtDate = (ts) => {
   const d = new Date(ts * 1000);
   return d.toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit", year: "numeric" });
 };
-const r1 = (n) => (Math.round(n * 10) / 10).toFixed(1).replace(/\.0$/, "");
+const r1 = (n) => (typeof n === "number" ? (Math.round(n * 10) / 10).toFixed(1).replace(/\.0$/, "") : String(n));
 
 function badge(kind, label, value) {
   if (value == null) return "";

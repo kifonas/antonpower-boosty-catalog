@@ -137,6 +137,8 @@ main { padding: 22px clamp(14px, 4vw, 40px) 60px; }
 .detail-info .title-en { font-size: 14px; margin-top: 0; }
 .detail-info .badges { flex-direction: row; flex-wrap: wrap; margin-top: 12px; }
 .detail-desc { margin: 16px 0 0; color: #c9cfdb; font-size: 14.5px; line-height: 1.6; }
+.kp-link { display: inline-block; margin-top: 14px; color: var(--kp); font-size: 14px; font-weight: 600; }
+.kp-link:hover { color: #ff8a3c; text-decoration: underline; }
 .detail-posts { margin-top: 28px; }
 .posts-head { font-size: 15px; margin: 0 0 12px; }
 .post-list { display: flex; flex-direction: column; gap: 6px; }

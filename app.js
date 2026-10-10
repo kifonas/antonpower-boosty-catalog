@@ -101,6 +101,12 @@ function postRow(p) {
   </a>`;
 }
 
+function kpHtml(g) {
+  if (g.kind === "game" || !g.kpId) return "";
+  const type = g.kind === "series" ? "series" : "film";
+  return `<a class="kp-link" href="https://www.kinopoisk.ru/${type}/${g.kpId}/" target="_blank" rel="noopener">Страница на Кинопоиске &rarr;</a>`;
+}
+
 function detailHtml(g) {
   const en = g.titleEn && g.titleEn !== g.title ? `<div class="title-en">${esc(g.titleEn)}</div>` : "";
   const badgeList = [badge("kp", "КИНОПОИСК", g.ratings.kinopoisk), badge("imdb", "IMDb", g.ratings.imdb)].join("");
@@ -116,6 +122,7 @@ function detailHtml(g) {
         ${en}
         ${badges}
         ${g.desc ? `<p class="detail-desc">${esc(g.desc)}</p>` : ""}
+        ${kpHtml(g)}
       </div>
     </div>
     <div class="detail-posts">

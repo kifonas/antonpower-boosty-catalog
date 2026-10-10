@@ -172,6 +172,11 @@ main { padding: 22px clamp(14px, 4vw, 40px) 60px; }
   .post-row { align-items: flex-start; gap: 10px; padding: 9px 11px; }
   .post-row .pr-date { flex: 0 0 82px; font-size: 12px; }
   .post-row .pr-title { font-size: 13px; }
+  .stream-row { flex-wrap: wrap; gap: 6px 10px; }
+  .stream-row .tag { order: 1; }
+  .stream-row .chip { order: 2; }
+  .stream-row .dt { order: 3; margin-left: auto; }
+  .stream-row .st { order: 4; flex: 1 1 100%; }
 }
 .foot {
   border-top: 1px solid var(--border); color: var(--muted);

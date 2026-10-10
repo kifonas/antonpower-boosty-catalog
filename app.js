@@ -32,18 +32,7 @@ function posterHtml(g) {
   return `<div class="poster${g.fit ? " " + g.fit : ""}">${img}${year}</div>`;
 }
 
-function postsHtml(g) {
-  if (!g.posts.length) return "";
-  const chip = (p) => `<a class="chip${p.hasAccess === false ? " paid" : ""}" href="${esc(p.url)}" target="_blank" rel="noopener" title="${p.hasAccess === false ? "Доступ по подписке" : "Открыть запись"}">${esc(p.label)}</a>`;
-  const head = `<div class="hdr">Записи (${g.posts.length})</div>`;
-  if (g.posts.length <= 8) return `<div class="posts">${head}<div class="chips">${g.posts.map(chip).join("")}</div></div>`;
-  return `<div class="posts">${head}<div class="chips">${g.posts.slice(0, 6).map(chip).join("")}</div>
-    <details class="sum"><summary>Показать все ${g.posts.length} записей</summary><div class="chips" style="margin-top:6px">${g.posts.map(chip).join("")}</div></details></div>`;
-}
-
 function cardHtml(g) {
-  const desc = g.desc ? esc(g.desc) : "";
-  const long = (g.desc || "").length > 200;
   const en = g.titleEn && g.titleEn !== g.title ? `<div class="title-en">${esc(g.titleEn)}</div>` : "";
   const badges = [
     badge("kp", "КИНОПОИСК", g.ratings.kinopoisk),
@@ -55,8 +44,6 @@ function cardHtml(g) {
       <h2 class="title">${esc(g.title)}</h2>
       ${en}
       <div class="badges">${badges || '<span class="badge none"></span>'}</div>
-      ${desc ? `<p class="desc">${desc}</p>${long ? '<button class="more">Показать полностью</button>' : ""}` : ""}
-      ${postsHtml(g)}
     </div>
   </article>`;
 }
@@ -108,11 +95,9 @@ function findGroup(id) {
 }
 
 function postRow(p) {
-  const paid = p.hasAccess === false ? `<span class="pr-paid">по подписке</span>` : "";
   return `<a class="post-row" href="${esc(p.url)}" target="_blank" rel="noopener">
     <span class="pr-date">${fmtDate(p.date)}</span>
     <span class="pr-title">${esc(p.title || p.label)}</span>
-    ${paid}
   </a>`;
 }
 
@@ -134,7 +119,7 @@ function detailHtml(g) {
       </div>
     </div>
     <div class="detail-posts">
-      <h2 class="posts-head">Записи с Boosty (${posts.length}) — сначала старые</h2>
+      <h2 class="posts-head">Записи с Boosty (${posts.length})</h2>
       <div class="post-list">${posts.map(postRow).join("")}</div>
     </div>
   </div>`;
@@ -187,13 +172,6 @@ function wire() {
   $("#sort").addEventListener("change", (e) => { state.sort = e.target.value; if (routeId()) location.hash = "#/"; else render(); });
   window.addEventListener("hashchange", () => { render(); window.scrollTo({ top: 0 }); });
   $("#grid").addEventListener("click", (e) => {
-    const m = e.target.closest(".more");
-    if (m) {
-      const d = m.parentNode.querySelector(".desc");
-      d.classList.toggle("open");
-      m.textContent = d.classList.contains("open") ? "Свернуть" : "Показать полностью";
-      return;
-    }
     if (e.target.closest("a")) return;
     const card = e.target.closest(".card");
     if (card && card.dataset.id) location.hash = "#/g/" + encodeURIComponent(card.dataset.id);

@@ -146,9 +146,32 @@ main { padding: 22px clamp(14px, 4vw, 40px) 60px; }
 .post-row:hover { border-color: var(--accent); text-decoration: none; }
 .post-row .pr-date { color: var(--muted); font-size: 12.5px; white-space: nowrap; flex: 0 0 100px; }
 .post-row .pr-title { flex: 1; font-size: 13.5px; }
-@media (max-width: 620px) {
+@media (max-width: 700px) {
+  .top {
+    position: static; backdrop-filter: none;
+    background: var(--bg); padding: 12px 14px 0;
+  }
+  .brand h1 { font-size: 17px; margin-bottom: 0; }
+  .brand p { display: none; }
+  .controls { margin: 10px 0 8px; gap: 8px; flex-wrap: nowrap; }
+  #search { flex: 1 1 auto; min-width: 0; padding: 9px 12px; font-size: 14px; }
+  select { flex: 0 0 auto; max-width: 46%; padding: 9px 10px; font-size: 13px; }
+  .tabs { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: 0 0 auto; white-space: nowrap; padding: 9px 11px; font-size: 13.5px; }
+  main { padding: 16px 14px 48px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 12px; }
+  .body { padding: 10px 10px 12px; gap: 6px; }
+  .title { font-size: 13.5px; }
+  .title-en { font-size: 11.5px; }
+  .yearbadge { font-size: 11px; padding: 1px 7px; }
   .detail-head { flex-direction: column; }
-  .detail-poster { width: 100%; flex-basis: auto; }
+  .detail-poster { width: 220px; max-width: 60%; flex-basis: auto; }
+  .detail-title { font-size: 20px; }
+  .detail-desc { font-size: 14px; }
+  .post-row { align-items: flex-start; gap: 10px; padding: 9px 11px; }
+  .post-row .pr-date { flex: 0 0 82px; font-size: 12px; }
+  .post-row .pr-title { font-size: 13px; }
 }
 .foot {
   border-top: 1px solid var(--border); color: var(--muted);

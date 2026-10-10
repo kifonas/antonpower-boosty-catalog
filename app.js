@@ -27,7 +27,7 @@ function posterHtml(g) {
     ? `<img loading="lazy" src="${esc(g.poster)}" alt="${esc(g.title)}" onerror="this.parentNode.innerHTML='<span class=&quot;ph&quot;>${ph}</span>'">`
     : `<span class="ph">${ph}</span>`;
   const year = g.year ? `<span class="yearbadge">${g.year}</span>` : "";
-  return `<div class="poster">${img}${year}</div>`;
+  return `<div class="poster${g.fit ? " " + g.fit : ""}">${img}${year}</div>`;
 }
 
 function postsHtml(g) {
